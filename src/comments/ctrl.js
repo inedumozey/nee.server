@@ -38,7 +38,7 @@ module.exports = {
             // save to database
             await comment.save();
 
-            res.status(201).json({ status: true, msg: "Sent", data: comments })
+            res.status(201).json({ status: true, msg: "Sent", data: comment })
 
         } catch (e) {
             return res.status(500).json({ status: false, msg: "Server error, please contact admin" })
