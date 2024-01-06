@@ -8,7 +8,7 @@ module.exports = {
             // let data = await pool.query(`SELECT * FROM comments ORDER BY created_at DESC`)
             // data = data.rows
 
-            const data = await Comment.find({}).sort({ createdAt: -1 });
+            const data = await Comment.find({}).sort({ createdAt: -1 }).select(["-__v", "-updatedAt"]);;
 
             res.status(201).json({ status: true, msg: "successful", data })
         } catch (e) {
@@ -20,8 +20,8 @@ module.exports = {
         try {
             const { body, name, email } = req.body;
 
-            if (!body || !name || !email) {
-                return res.status(400).json({ status: false, msg: "All fields are required!" })
+            if (!body || !name) {
+                return res.status(400).json({ status: false, msg: "fill all required fields!" })
             }
 
             // create database data

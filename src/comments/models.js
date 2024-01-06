@@ -14,7 +14,6 @@ const schema = new Schema({
     },
     email: {
         type: String,
-        require: true,
         trim: true,
     },
 }, { timestamps: true });
