@@ -16,9 +16,16 @@ app.use(express.urlencoded({ extended: false }))
 // connect database
 conn();
 
+
+// create database enpoint
+app.use('/api/v1/db/create-tables', require('./src/db/createTables'));
+
 //routers
 app.use("/api/v1", require("./src/comments/routes"))
 
+app.get('/', (req, res) => {
+    res.send("hello")
+})
 
 // listen to server
 const PORT = process.env.PORT | 4000
