@@ -44,4 +44,17 @@ module.exports = {
             return res.status(500).json({ status: false, msg: "Server error, please contact admin" })
         }
     },
+
+    data: async (req, res) => {
+        try {
+            // let data = await pool.query(`SELECT * FROM comments ORDER BY created_at DESC`)
+            // data = data.rows
+
+            const data = await Comment.find({}).sort({ createdAt: -1 }).select(["-__v", "-updatedAt", "_id"]);;
+
+            res.status(201).json({ status: true, msg: "successful", data })
+        } catch (e) {
+            return res.status(500).json({ status: false, msg: "Server error, please contact admin" })
+        }
+    },
 }
