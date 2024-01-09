@@ -20,8 +20,18 @@ module.exports = {
         try {
             const { body, name, email } = req.body;
 
-            if (!body || !name) {
+            if (!body || !name || !email) {
                 return res.status(400).json({ status: false, msg: "fill all required fields!" })
+            }
+
+            function checkEmail(email) {
+                var filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                return filter.test(email) ? true : false
+            }
+
+            if (!checkEmail(email)) {
+                return res.status(405).json({ status: false, msg: "Email is invalid!" });
             }
 
             // create database data
@@ -51,6 +61,21 @@ module.exports = {
             // data = data.rows
 
             const data = await Comment.find({}).sort({ createdAt: -1 }).select(["-__v", "-updatedAt", "-_id"]);
+
+            res.status(201).json({ status: true, msg: "successful", data })
+        } catch (e) {
+            return res.status(500).json({ status: false, msg: "Server error, please contact admin" })
+        }
+    },
+
+    edit: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { email } = req.body;
+
+            // search for user using the email
+            // const user = 
+            // const data = await Comment.find({}).sort({ createdAt: -1 }).select(["-__v", "-updatedAt"]);;
 
             res.status(201).json({ status: true, msg: "successful", data })
         } catch (e) {
